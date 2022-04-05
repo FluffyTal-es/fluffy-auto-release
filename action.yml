@@ -21,7 +21,7 @@ inputs:
   prerelease:
     description: "Should this release be marked as a pre-release?"
     required: false
-    default: true
+    default: false
   title:
     description: "Release title (for automatic releases)"
     required: false
