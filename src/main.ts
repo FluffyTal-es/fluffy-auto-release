@@ -284,17 +284,17 @@ export const main = async (): Promise<void> => {
         repo: args.repository ? args.repository: context.repo.repo,
         ref: `tags/${previousReleaseTag}`,
       },
-      args.sha? args.sha : context.sha,
+      args.sha ? args.sha : context.sha,
     );
 
-    const changelog = await getChangelog(client, context.repo.owner, context.repo.repo, commitsSinceRelease);
+    const changelog = await getChangelog(client, context.repo.owner, args.repository ? args.repository: context.repo.repo, commitsSinceRelease);
 
     if (args.automaticReleaseTag) {
       await createReleaseTag(client, {
         owner: context.repo.owner,
         ref: `refs/tags/${args.automaticReleaseTag}`,
         repo: args.repository ? args.repository: context.repo.repo,
-        sha: args.sha? args.sha : context.sha,
+        sha: args.sha ? args.sha : context.sha,
       });
 
       await deletePreviousGitHubRelease(client, {
