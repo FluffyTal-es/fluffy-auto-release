@@ -17,7 +17,8 @@ type Args = {
   preRelease: boolean;
   releaseTitle: string;
   files: string[];
-  repository: string
+  repository: string,
+  sha: string
 };
 
 const getAndValidateArgs = (): Args => {
@@ -29,6 +30,7 @@ const getAndValidateArgs = (): Args => {
     releaseTitle: core.getInput('title', {required: false}),
     files: [] as string[],
     repository: core.getInput('repository', {required: false}),
+    sha: core.getInput('sha', {required: false}),
   };
 
   const inputFilesStr = core.getInput('files', {required: false});
@@ -282,7 +284,7 @@ export const main = async (): Promise<void> => {
         repo: args.repository ? args.repository: context.repo.repo,
         ref: `tags/${previousReleaseTag}`,
       },
-      context.sha,
+      args.sha? args.sha : context.sha,
     );
 
     const changelog = await getChangelog(client, context.repo.owner, context.repo.repo, commitsSinceRelease);
@@ -292,7 +294,7 @@ export const main = async (): Promise<void> => {
         owner: context.repo.owner,
         ref: `refs/tags/${args.automaticReleaseTag}`,
         repo: args.repository ? args.repository: context.repo.repo,
-        sha: context.sha,
+        sha: args.sha? args.sha : context.sha,
       });
 
       await deletePreviousGitHubRelease(client, {

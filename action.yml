@@ -2,6 +2,9 @@ name: "Automatic Releases"
 author: "marvinpinto"
 description: "Automate the GitHub release process with assets, changelogs, pre-releases, and more"
 inputs:
+  sha:
+    description: "Commit sha"
+    required: false
   repository:
     description: "Repository to release"
     required: false
